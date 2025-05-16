@@ -1,0 +1,1232 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eco Puntos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'core/css/categorias.css' %}">
+  
+  <!-- Estilos para la nueva barra de navegación y fondo de página -->
+  <style>
+    /* Estilos para el fondo de página */
+    body {
+      background-image: url('{% static "core/img/eco-background.jpg" %}');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      position: relative;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(133, 238, 129, 0.92);
+      z-index: -1;
+    }
+    
+    /* Estilos para la barra de navegación moderna */
+    .navbar-eco {
+      background-color: rgba(255, 255, 255, 0.76);
+      box-shadow: 0 4px 20px rgba(255, 254, 254, 0.05);
+      padding: 15px 0;
+      transition: all 0.3s ease;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .navbar-eco.scrolled {
+      padding: 10px 0;
+      background-color: rgba(255, 253, 253, 0.664);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-brand-eco {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-eco {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .navbar-eco.scrolled .logo-eco {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .brand-text {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: #4caf50;
+      margin: 0;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-eco.scrolled .brand-text {
+      font-size: 1.4rem;
+    }
+    
+    .nav-link-eco {
+      color: #333;
+      font-weight: 500;
+      padding: 8px 16px !important;
+      margin: 0 5px;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .nav-link-eco:hover {
+      color: #4caf50;
+      background-color: rgba(76, 175, 80, 0.1);
+    }
+    
+    .nav-link-eco.active {
+      color: #4caf50;
+      font-weight: 600;
+    }
+    
+    .nav-link-eco.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: #4caf50;
+      border-radius: 50%;
+    }
+    
+    .btn-login {
+      background-color: transparent;
+      color: #4caf50;
+      border: 2px solid #4caf50;
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-login:hover {
+      background-color: rgba(76, 175, 80, 0.1);
+      color: #4caf50;
+    }
+    
+    .btn-register {
+      background-color: #4caf50;
+      color: white;
+      border: 2px solid #4caf50;
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+    }
+    
+    .btn-register:hover {
+      background-color: #388e3c;
+      border-color: #388e3c;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+    }
+    
+    .navbar-toggler-eco {
+      border: none;
+      background: transparent;
+      padding: 0;
+    }
+    
+    .navbar-toggler-icon-eco {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-toggler-icon-eco span {
+      display: block;
+      position: absolute;
+      height: 3px;
+      width: 100%;
+      background: #4caf50;
+      border-radius: 10px;
+      opacity: 1;
+      left: 0;
+      transform: rotate(0deg);
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-toggler-icon-eco span:nth-child(1) {
+      top: 6px;
+    }
+    
+    .navbar-toggler-icon-eco span:nth-child(2) {
+      top: 16px;
+    }
+    
+    .navbar-toggler-icon-eco span:nth-child(3) {
+      top: 26px;
+    }
+    
+    .navbar-toggler-eco[aria-expanded="true"] .navbar-toggler-icon-eco span:nth-child(1) {
+      top: 16px;
+      transform: rotate(135deg);
+    }
+    
+    .navbar-toggler-eco[aria-expanded="true"] .navbar-toggler-icon-eco span:nth-child(2) {
+      opacity: 0;
+      left: -60px;
+    }
+    
+    .navbar-toggler-eco[aria-expanded="true"] .navbar-toggler-icon-eco span:nth-child(3) {
+      top: 16px;
+      transform: rotate(-135deg);
+    }
+    
+    /* Ajuste para el contenido principal */
+    main {
+      padding-top: 90px;
+    }
+    
+    /* Animación para los elementos del menú */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .nav-item-eco {
+      animation: fadeInDown 0.5s ease forwards;
+      opacity: 0;
+    }
+    
+    .nav-item-eco:nth-child(1) { animation-delay: 0.1s; }
+    .nav-item-eco:nth-child(2) { animation-delay: 0.2s; }
+    .nav-item-eco:nth-child(3) { animation-delay: 0.3s; }
+    .nav-item-eco:nth-child(4) { animation-delay: 0.4s; }
+    
+    /* Estilos para dispositivos móviles */
+    @media (max-width: 991px) {
+      .navbar-collapse {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-top: 15px;
+      }
+      
+      .nav-link-eco {
+        padding: 12px 20px !important;
+        margin: 5px 0;
+      }
+      
+      .nav-link-eco.active::after {
+        display: none;
+      }
+      
+      .nav-link-eco.active {
+        background-color: rgba(76, 175, 80, 0.1);
+      }
+      
+      .navbar-buttons {
+        margin-top: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .btn-login, .btn-register {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Nueva barra de navegación moderna -->
+  <nav class="navbar navbar-expand-lg navbar-eco">
+    <div class="container">
+      <!-- Logo y nombre -->
+      <a class="navbar-brand-eco" href="#">
+        <img src="{% static 'core/img/eco.jpg' %}" alt="Logo Eco Puntos" class="logo-eco">
+        <h1 class="brand-text">Eco Puntos</h1>
+      </a>
+      
+      <!-- Botón de hamburguesa personalizado -->
+      <button class="navbar-toggler navbar-toggler-eco" type="button" data-bs-toggle="collapse" data-bs-target="#navbarEco" aria-controls="navbarEco" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="navbar-toggler-icon-eco">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </button>
+      
+      <!-- Menú de navegación -->
+      <div class="collapse navbar-collapse" id="navbarEco">
+        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+          <li class="nav-item nav-item-eco">
+            <a class="nav-link nav-link-eco active" href="#hero">Inicio</a>
+          </li>
+          <li class="nav-item nav-item-eco">
+            <a class="nav-link nav-link-eco" href="#nosotros">Quiénes Somos</a>
+          </li>
+          <li class="nav-item nav-item-eco">
+            <a class="nav-link nav-link-eco" href="#categorias">Categorías</a>
+          </li>
+          <li class="nav-item nav-item-eco">
+            <a class="nav-link nav-link-eco" href="#cta">Contáctanos</a>
+          </li>
+        </ul>
+        
+        <!-- Botones de acceso -->
+        <div class="navbar-buttons d-flex align-items-center">
+          <a href="{% url 'iniciosesion' %}" class="btn btn-login me-3">Iniciar Sesión</a>
+          <a href="{% url 'registrate' %}" class="btn btn-register">Regístrate</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- El resto del contenido permanece igual -->
+  <!-- Main Content -->
+  <main>
+    <!-- Sección Hero Modificada -->
+    <section id="hero">
+      <img src="" alt="">
+      <div class="hero-content">
+        <h1>TRANSFORMACIÓN | PRESERVACIÓN DEL PLANETA</h1>
+        <p>En Eco Puntos reciclamos sueños y creamos realidades sostenibles.</p>
+        <a href="#contact" class="btn btn-hero">Contáctanos</a>
+      </div>
+    </section>
+
+   <!-- Sección Nosotros (Quiénes Somos) Rediseñada -->
+    <section id="nosotros" class="py-5" style="background-color: #b2e676;">
+      <div class="container">
+        <div class="section-header text-center mb-5">
+          <span class="badge bg-success px-3 py-2 mb-2">Conócenos</span>
+          <h1 style="color:#4caf50; font-weight: 700;">Quiénes Somos</h1>
+          <div class="divider mx-auto my-3"></div>
+          <p class="lead">Transformando el reciclaje en una experiencia gratificante para ti y el planeta</p>
+        </div>
+        
+        <!-- Tarjetas con animación -->
+        <div class="row mb-5">
+          <!-- Tarjeta de Misión -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+              <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-4">
+                  <div class="icon-circle bg-success text-white me-3">
+                    <i class="fas fa-bullseye"></i>
+                  </div>
+                  <h3 class="card-title mb-0" style="color: #4caf50;">Nuestra Misión</h3>
+                </div>
+                <p class="card-text">
+                  En Eco Puntos, queremos que reciclar sea más que una obligación: una oportunidad. Creemos que cada esfuerzo por el planeta merece ser recompensado, por eso hemos creado una plataforma donde las personas pueden transformar sus residuos en dinero. Nuestro propósito es hacer del reciclaje un hábito accesible, fácil y motivador, ayudando a construir un futuro más limpio y sostenible para todos.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Tarjeta de Visión -->
+          <div class="col-md-6 mb-4">
+            <div class="card h-100 border-0 shadow-sm hover-card">
+              <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-4">
+                  <div class="icon-circle bg-success text-white me-3">
+                    <i class="fas fa-eye"></i>
+                  </div>
+                  <h3 class="card-title mb-0" style="color: #4caf50;">Nuestra Visión</h3>
+                </div>
+                <p class="card-text">
+                  Soñamos con un mundo donde reciclar sea parte del día a día, no solo por el beneficio económico, sino por el impacto positivo en el medio ambiente. Queremos que Eco Puntos sea el puente entre las personas y un futuro más verde, facilitando el acceso a recompensas justas por su compromiso con el planeta. Nuestra meta es crecer, llegar a más comunidades y convertirnos en un referente en reciclaje incentivado.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Video y Estadísticas -->
+        <div class="row align-items-center">
+          <!-- Video -->
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="video-container shadow-lg rounded overflow-hidden">
+              <div class="video-overlay">
+                <div class="play-button">
+                  <i class="fas fa-play"></i>
+                </div>
+              </div>
+              <video controls width="100%" poster="{% static 'core/img/video-poster.jpg' %}">
+                <source src="{{ MEDIA_URL }}ecopu.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+              </video>
+            </div>
+          </div>
+          
+          <!-- Estadísticas -->
+          <div class="col-lg-6">
+            <div class="stats-container p-4">
+              <h3 class="mb-4" style="color: #4caf50;">Nuestro Impacto</h3>
+              
+              <!-- Estadística 1 -->
+              <div class="stat-item mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="stat-label">Toneladas Recicladas</span>
+                  <span class="stat-value">1,500+</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 75%"></div>
+                </div>
+              </div>
+              
+              <!-- Estadística 2 -->
+              <div class="stat-item mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="stat-label">Usuarios Activos</span>
+                  <span class="stat-value">5,000+</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                </div>
+              </div>
+              
+              <!-- Estadística 3 -->
+              <div class="stat-item mb-4">
+                <div class="d-flex justify-content-between align-items-center">
+                  <span class="stat-label">Puntos Canjeados</span>
+                  <span class="stat-value">250,000+</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                  <div class="progress-bar bg-success" role="progressbar" style="width: 65%"></div>
+                </div>
+              </div>
+              
+              <!-- Botón de Acción -->
+              <a href="{% url 'registrate' %}" class="btn btn-success btn-lg mt-3">
+                <i class="fas fa-leaf me-2"></i>Únete a Nosotros
+              </a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Valores (Nueva sección) -->
+        <div class="row mt-5">
+          <div class="col-12 text-center mb-4">
+            <h3 style="color: #4caf50;">Nuestros Valores</h3>
+            <div class="divider mx-auto my-3"></div>
+          </div>
+          
+          <!-- Valor 1 -->
+          <div class="col-md-3 col-sm-6 mb-4">
+            <div class="valor-card text-center">
+              <div class="valor-icon">
+                <i class="fas fa-heart"></i>
+              </div>
+              <h4>Compromiso</h4>
+              <p>Dedicados a crear un impacto positivo en el medio ambiente y en nuestras comunidades.</p>
+            </div>
+          </div>
+          
+          <!-- Valor 2 -->
+          <div class="col-md-3 col-sm-6 mb-4">
+            <div class="valor-card text-center">
+              <div class="valor-icon">
+                <i class="fas fa-handshake"></i>
+              </div>
+              <h4>Colaboración</h4>
+              <p>Trabajamos juntos con usuarios, empresas y comunidades para lograr objetivos comunes.</p>
+            </div>
+          </div>
+          
+          <!-- Valor 3 -->
+          <div class="col-md-3 col-sm-6 mb-4">
+            <div class="valor-card text-center">
+              <div class="valor-icon">
+                <i class="fas fa-lightbulb"></i>
+              </div>
+              <h4>Innovación</h4>
+              <p>Buscamos constantemente nuevas formas de mejorar nuestro servicio y el impacto ambiental.</p>
+            </div>
+          </div>
+          
+          <!-- Valor 4 -->
+          <div class="col-md-3 col-sm-6 mb-4">
+            <div class="valor-card text-center">
+              <div class="valor-icon">
+                <i class="fas fa-leaf"></i>
+              </div>
+              <h4>Sostenibilidad</h4>
+              <p>Todas nuestras decisiones están guiadas por el respeto al medio ambiente y el futuro del planeta.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Estilos para la sección Quiénes Somos -->
+    <style>
+      /* Estilos para la sección Quiénes Somos */
+      #nosotros {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .section-header .divider {
+        height: 3px;
+        width: 60px;
+        background-color: #4caf50;
+      }
+      
+      .icon-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      
+      .hover-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+      }
+      
+      .hover-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+      }
+      
+      .video-container {
+        position: relative;
+        padding-bottom: 56.25%; /* Proporción 16:9 */
+        height: 0;
+        overflow: hidden;
+      }
+      
+      .video-container video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      
+      .video-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+      }
+      
+      .video-container:hover .video-overlay {
+        opacity: 0;
+      }
+      
+      .play-button {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(76, 175, 80, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      
+      .play-button:hover {
+        transform: scale(1.1);
+      }
+      
+      .stats-container {
+        background-color: #f9f9f9;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      }
+      
+      .stat-item .stat-value {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #4caf50;
+      }
+      
+      .stat-item .stat-label {
+        font-size: 1rem;
+        color: #555;
+      }
+      
+      .progress {
+        background-color: #e9ecef;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      
+      .progress-bar {
+        border-radius: 10px;
+        transition: width 1.5s ease;
+      }
+      
+      /* Animación para las barras de progreso */
+      @keyframes progressAnimation {
+        0% { width: 0; }
+      }
+      
+      .progress-bar {
+        animation: progressAnimation 1.5s ease-out forwards;
+      }
+      
+      /* Estilos para la sección de valores */
+      .valor-card {
+        padding: 25px 15px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+      }
+      
+      .valor-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      }
+      
+      .valor-icon {
+        width: 70px;
+        height: 70px;
+        background-color: rgba(76, 175, 80, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        color: #4caf50;
+        font-size: 24px;
+        transition: all 0.3s ease;
+      }
+      
+      .valor-card:hover .valor-icon {
+        background-color: #4caf50;
+        color: white;
+        transform: rotateY(180deg);
+      }
+      
+      .valor-card h4 {
+        color: #4caf50;
+        margin-bottom: 15px;
+        font-weight: 600;
+      }
+      
+      .valor-card p {
+        color: #666;
+        font-size: 0.9rem;
+      }
+    </style>
+    
+    <!-- Sección de Categorías Rediseñada -->
+    <section id="categorias" class="py-5" style="background-color: #b1f3a4;">
+      <div class="container">
+        <h2 class="text-center mb-5" style="color: #4caf50; font-weight: 700;">Explora Categorías de Reciclaje</h2>
+        <p class="text-center mb-5" style="color: #4caf50; font-weight: 600;">Descubre cómo cada tipo de material puede transformarse en beneficios para ti y para el planeta.</p>
+    
+        <div class="row">
+          <!-- Categoría Plásticos -->
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="categoria-card">
+              <div class="categoria-icon">
+                <i class="fas fa-wine-bottle"></i>
+              </div>
+              <div class="categoria-img">
+                <img src="{% static 'core/img/plasticos.jpg' %}" alt="Plásticos">
+              </div>
+              <div class="categoria-content">
+                <h3>Plásticos</h3>
+                <p>Transforma botellas, envases y otros plásticos en puntos canjeables.</p>
+                <div class="categoria-info">
+                  <div class="info-item">
+                    <span class="info-label">Puntos por kg</span>
+                    <span class="info-value">15</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Impacto</span>
+                    <span class="info-value">Alto</span>
+                  </div>
+                </div>
+                <a href="{% url 'iniciosesion' %}" class="btn btn-categoria">Reciclar ahora</a>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Categoría Vidrio -->
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="categoria-card">
+              <div class="categoria-icon">
+                <i class="fas fa-glass-martini-alt"></i>
+              </div>
+              <div class="categoria-img">
+                <img src="{% static 'core/img/vidrio.jpg' %}" alt="Vidrio">
+              </div>
+              <div class="categoria-content">
+                <h3>Vidrio</h3>
+                <p>El vidrio es 100% reciclable y puede reutilizarse infinitamente sin perder calidad.</p>
+                <div class="categoria-info">
+                  <div class="info-item">
+                    <span class="info-label">Puntos por kg</span>
+                    <span class="info-value">10</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Impacto</span>
+                    <span class="info-value">Medio</span>
+                  </div>
+                </div>
+                <a href="{% url 'iniciosesion' %}" class="btn btn-categoria">Reciclar ahora</a>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Categoría Papel -->
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="categoria-card">
+              <div class="categoria-icon">
+                <i class="fas fa-newspaper"></i>
+              </div>
+              <div class="categoria-img">
+                <img src="{% static 'core/img/papel.jpg' %}" alt="Papel">
+              </div>
+              <div class="categoria-content">
+                <h3>Papel</h3>
+                <p>Reciclar papel ayuda a reducir la deforestación y a preservar los recursos naturales.</p>
+                <div class="categoria-info">
+                  <div class="info-item">
+                    <span class="info-label">Puntos por kg</span>
+                    <span class="info-value">8</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Impacto</span>
+                    <span class="info-value">Alto</span>
+                  </div>
+                </div>
+                <a href="{% url 'iniciosesion' %}" class="btn btn-categoria">Reciclar ahora</a>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Categoría Metales -->
+          <div class="col-lg-3 col-md-6 mb-4">
+            <div class="categoria-card">
+              <div class="categoria-icon">
+                <i class="fas fa-cog"></i>
+              </div>
+              <div class="categoria-img">
+                <img src="{% static 'core/img/metales.jpg' %}" alt="Metales">
+              </div>
+              <div class="categoria-content">
+                <h3>Metales</h3>
+                <p>El reciclaje de metales permite reducir la minería y conservar recursos naturales.</p>
+                <div class="categoria-info">
+                  <div class="info-item">
+                    <span class="info-label">Puntos por kg</span>
+                    <span class="info-value">20</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Impacto</span>
+                    <span class="info-value">Muy alto</span>
+                  </div>
+                </div>
+                <a href="{% url 'iniciosesion' %}" class="btn btn-categoria">Reciclar ahora</a>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Botón para ver todas las categorías -->
+        <div class="text-center mt-4">
+          <a href="{% url 'categorias' %}" class="btn btn-success btn-lg">
+            <i class="fas fa-recycle me-2"></i>Ver todas las categorías
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Añade estos estilos para la sección de categorías -->
+    <style>
+      /* Estilos para la sección de categorías */
+      .categoria-card {
+        background-color: rgb(169, 243, 155);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(214, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+        position: relative;
+      }
+      
+      .categoria-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+      }
+      
+      .categoria-icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(76, 175, 80, 0.9);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgb(0, 0, 0);
+        font-size: 18px;
+        z-index: 2;
+      }
+      
+      .categoria-img {
+        height: 180px;
+        overflow: hidden;
+      }
+      
+      .categoria-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+      
+      .categoria-card:hover .categoria-img img {
+        transform: scale(1.1);
+      }
+      
+      .categoria-content {
+        padding: 20px;
+      }
+      
+      .categoria-content h3 {
+        color: #4caf50;
+        font-size: 1.4rem;
+        margin-bottom: 10px;
+      }
+      
+      .categoria-content p {
+        color: #000000;
+        margin-bottom: 15px;
+        font-size: 0.95rem;
+      }
+      
+      .categoria-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #95e086;
+        border-radius: 8px;
+      }
+      
+      .info-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .info-label {
+        font-size: 0.8rem;
+        color: #000000;
+      }
+      
+      .info-value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #056401;
+      }
+      
+      .btn-categoria {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+      }
+      
+      .btn-categoria:hover {
+        background-color: #388e3c;
+        color: white;
+        text-decoration: none;
+      }
+    </style>
+  
+  <!-- Footer Rediseñado -->
+  <footer class="footer-redesign">
+    <div class="footer-wave">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#4caf50" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,149.3C960,160,1056,160,1152,138.7C1248,117,1344,75,1392,53.3L1440,32L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+      </svg>
+    </div>
+  
+    <div class="footer-content">
+      <div class="container">
+        <div class="row">
+          <!-- Columna 1: Logo y descripción -->
+          <div class="col-lg-4 mb-4 mb-lg-0">
+            <div class="footer-brand">
+              <img src="{% static 'core/img/eco.jpg' %}" alt="Logo Eco Puntos" class="footer-logo">
+              <h3>Eco Puntos</h3>
+            </div>
+            <p class="footer-description">Transformamos el reciclaje en recompensas, creando un futuro más sostenible para todos.</p>
+            <div class="footer-social">
+              <a href="https://www.facebook.com/124172968223072" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://twitter.com/SENA_Tolima/status/1541889419942174726" class="social-icon"><i class="fab fa-twitter"></i></a>
+              <a href="https://www.instagram.com/explore/locations/124172968223072/sena-centro-de-industria-y-la-construccion/" class="social-icon"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          
+          <!-- Columna 2: Enlaces rápidos -->
+          <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+            <h5 class="footer-heading">Enlaces Rápidos</h5>
+            <ul class="footer-links">
+              <li><a href="#hero">Inicio</a></li>
+              <li><a href="#nosotros">Quiénes Somos</a></li>
+              <li><a href="#categorias">Categorías</a></li>
+              <li><a href="#cta">Contáctanos</a></li>
+            </ul>
+          </div>
+          
+          <!-- Columna 3: Categorías -->
+          <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+            <h5 class="footer-heading">Categorías</h5>
+            <ul class="footer-links">
+              <li><a href="{% url 'categorias' %}">Plásticos</a></li>
+              <li><a href="{% url 'categorias' %}">Vidrio</a></li>
+              <li><a href="{% url 'categorias' %}">Papel</a></li>
+              <li><a href="{% url 'categorias' %}">Metales</a></li>
+            </ul>
+          </div>
+          
+          <!-- Columna 4: Contacto -->
+          <div class="col-lg-4 col-md-6">
+            <h5 class="footer-heading">Contacto</h5>
+            <ul class="footer-contact">
+              <li>
+                <i class="fas fa-map-marker-alt contact-icon"></i>
+                <span>Centro de Industria y Construcción SENA</span>
+              </li>
+              <li>
+                <i class="fas fa-phone contact-icon"></i>
+                <span>(+57) 324 960 5589</span>
+              </li>
+              <li>
+                <i class="fas fa-envelope contact-icon"></i>
+                <span>info@ecopuntos.com</span>
+              </li>
+              <li>
+                <i class="fas fa-clock contact-icon"></i>
+                <span>Lun - Vie: 8:00 AM - 5:00 PM</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="copyright">© 2025 Eco Puntos. Todos los derechos reservados.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <div class="footer-legal">
+              <a href="{% static 'core/pdf/PDFA_A3_00_POL_003_Politica_de_Seguridad_y_privacidad_de_la_Informacion.pdf' %}">Políticas de privacidad</a>
+              <span class="separator">|</span>
+              <a href="#">Términos de uso</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Estilos para el footer rediseñado -->
+  <style>
+    /* Estilos para el footer rediseñado */
+    .footer-redesign {
+      position: relative;
+      background-color: #1e3a2b;
+      color: #fff;
+      margin-top: 100px;
+    }
+    
+    .footer-wave {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+    
+    .footer-content {
+      padding: 70px 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .footer-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+    
+    .footer-brand h3 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #fff;
+    }
+    
+    .footer-description {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 25px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .footer-social {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+      background-color: #4caf50;
+      transform: translateY(-5px);
+      color: #fff;
+      text-decoration: none;
+    }
+    
+    .footer-heading {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 25px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .footer-heading::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      height: 3px;
+      background-color: #4caf50;
+    }
+    
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .footer-links li {
+      margin-bottom: 12px;
+    }
+    
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+      padding-left: 15px;
+    }
+    
+    .footer-links a::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: #4caf50;
+      font-size: 18px;
+      line-height: 1;
+    }
+    
+    .footer-links a:hover {
+      color: #fff;
+      padding-left: 20px;
+    }
+    
+    .footer-contact {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .footer-contact li {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+    
+    .contact-icon {
+      color: #4caf50;
+      margin-right: 15px;
+      font-size: 16px;
+      margin-top: 3px;
+    }
+    
+    .footer-bottom {
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 20px 0;
+    }
+    
+    .copyright {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+    }
+    
+    .footer-legal a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+      font-size: 0.9rem;
+    }
+    
+    .footer-legal a:hover {
+      color: #fff;
+    }
+    
+    .separator {
+      margin: 0 10px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Animación para los enlaces */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .footer-links li, .footer-contact li {
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+    }
+    
+    .footer-links li:nth-child(1), .footer-contact li:nth-child(1) { animation-delay: 0.1s; }
+    .footer-links li:nth-child(2), .footer-contact li:nth-child(2) { animation-delay: 0.2s; }
+    .footer-links li:nth-child(3), .footer-contact li:nth-child(3) { animation-delay: 0.3s; }
+    .footer-links li:nth-child(4), .footer-contact li:nth-child(4) { animation-delay: 0.4s; }
+  </style>
+</body>
+</html>
+
+<!-- Script para la barra de navegación -->
+<script>
+  // Cambiar estilo de la barra de navegación al hacer scroll
+  window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar-eco');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+      // Hacer la barra de navegación más transparente al hacer scroll
+      navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+    } else {
+      navbar.classList.remove('scrolled');
+      // Restaurar la opacidad original
+      navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+    }
+  });
+  
+  // Activar el enlace del menú según la sección visible
+  document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link-eco');
+    
+    function highlightNavLink() {
+      const scrollPosition = window.scrollY + 100;
+      
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionId = section.getAttribute('id');
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + sectionId) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }
+    
+    window.addEventListener('scroll', highlightNavLink);
+    highlightNavLink(); // Ejecutar al cargar la página
+  });
+</script>
+</body>
+</html>

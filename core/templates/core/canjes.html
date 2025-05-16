@@ -1,0 +1,807 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Canjes - EcoPuntos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4caf50;
+            --primary-dark: #388e3c;
+            --primary-light: #c8e6c9;
+            --accent: #8bc34a;
+            --text-dark: #263238;
+            --text-light: #f5f5f5;
+            --gray-light: #f9f9f9;
+            --gray: #e0e0e0;
+            --success: #66bb6a;
+            --info: #29b6f6;
+            --warning: #ffa726;
+            --gradient-1: linear-gradient(135deg, #43a047 0%, #7cb342 100%);
+            --gradient-2: linear-gradient(135deg, #2e7d32 0%, #558b2f 100%);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "core/img/nature-3294681_1920 (1) (1).jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Barra de navegación moderna */
+        .header {
+            background: var(--gradient-1);
+            color: white;
+            padding: 15px 0;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            margin-right: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.1);
+        }
+        
+        .menu {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .menu a:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Estilos existentes */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        h1, .descripcion {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        .categoria {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .categoria h2 {
+            color: #2C5F2D;
+            text-align: center;
+            font-size: 1.5em;
+            margin: 0 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            color: #2C5F2D;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-value i {
+            color: #FFD700;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .categoria {
+                margin-bottom: 20px;
+            }
+        }
+        .header {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .logo {
+            max-width: 200px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .categoria {
+            background-color: white;
+            padding: 0;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .categoria h2 {
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        .categoria h2::before {
+            content: '🛒🍃';
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .producto {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .producto:hover {
+            background-color: #f9f9f9;
+        }
+
+        .categoria:hover {
+            transform: translateY(-5px);
+        }
+
+
+        .categoria h2::after {
+            color: white;
+            font-size: 1em;
+        }
+
+        .producto {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .categoria-header {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .categoria-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+        }
+
+        .categoria h2 {
+            position: relative;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            font-size: 2em;
+            z-index: 1;
+            border: none;
+        }
+
+        .categoria-content {
+            padding: 20px;
+        }
+
+        .categoria:hover {
+            transform: translateY(-5px);
+        }
+
+        .categoria h2 {
+            color: #2C5F2D;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .categoria-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .producto {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .producto:hover {
+            background-color: #f9f9f9;
+        }
+
+        .producto-info {
+            flex-grow: 1;
+        }
+
+        .producto-info h3 {
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+
+        .precio {
+            color: #2C5F2D;
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+
+        .btn-canjear {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-canjear:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            z-index: 9999;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: rgb(255, 255, 255);
+            margin: 10% auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            animation: modalSlide 0.3s ease;
+            z-index: 10000;
+        }
+
+        .resultado-canje {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .resultado-canje h3 {
+            margin: 0 0 10px 0;
+            color: white;
+        }
+
+        .resultado-canje p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        @keyframes modalSlide {
+            from {
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #dddddd;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .modal input:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .btn-confirmar {
+            background-color: #4CAF50;
+            margin-right: 15px;
+        }
+
+        .btn-cancelar {
+            background-color: #f44336;
+        }
+
+        #total {
+            font-size: 1.2em;
+            color: #ffffff;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .producto {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .btn-canjear {
+                width: 100%;
+            }
+        }
+        .footer {
+    background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
+    backdrop-filter: blur(10px);
+    padding: 50px 0 20px;
+    margin-top: 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 1;
+}
+
+.footer-title {
+    color: var(--primary-dark);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--gradient-1);
+    border-radius: 2px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: var(--gradient-1);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    transform: translateY(-3px);
+    background: var(--gradient-2);
+    box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+    color: white;
+}
+
+.footer-link {
+    display: block;
+    color: var(--text-dark);
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.footer-link:hover {
+    color: var(--primary);
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+.footer p {
+    color: var(--text-dark);
+    opacity: 0.8;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-bottom p {
+    color: var(--text-dark);
+    opacity: 0.7;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 0 15px;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .footer-title {
+        text-align: center;
+        display: block;
+    }
+    
+    .footer-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .footer p {
+        justify-content: center;
+        text-align: center;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Nueva barra de navegación -->
+    <header class="header">
+        <div class="logo-container">
+            <img class="logo" src="{% static 'core/img/eco.jpg' %}" alt="Logo Eco Puntos">
+            <h1>Eco Puntos</h1>
+        </div>
+        <nav class="menu">
+            <a href="{% url 'iniciosesionperfil' %}"><i class="fas fa-home me-2"></i>Inicio</a>
+            <a href="{% url 'perfil' %}"><i class="fas fa-user me-2"></i>Mi Perfil</a>
+            <a href="{% url 'categorias' %}"><i class="fas fa-recycle me-2"></i>Categorías</a>
+            <a href="{% url 'canjes' %}"><i class="fas fa-exchange-alt me-2"></i>Canjes</a>
+            <a href="{% url 'historial' %}"><i class="fas fa-history me-2"></i>Historial</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Centro de Canjes EcoPuntos</h1>
+        <p class="descripcion"</p>
+
+        <div class="categoria">
+            <center>
+                <h2>
+                    Plástico
+                </h2>
+            </center>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>PET (Botellas de plástico)</h3>
+                    <p class="precio">Precio por kg: $2.000</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('PET', 2000)">Canjear</button>
+            </div>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>HDPE (Plástico duro)</h3>
+                    <p class="precio">Precio por kg: $1.800</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('HDPE', 1800)">Canjear</button>
+            </div>
+        </div>
+
+        <div class="categoria">
+            <center>
+                <h2>
+                    Metal
+                </h2>
+            </center>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Cobre</h3>
+                    <p class="precio">Precio por kg: $15.000</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Cobre', 15000)">Canjear</button>
+            </div>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Aluminio</h3>
+                    <p class="precio">Precio por kg: $3.000</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Aluminio', 3000)">Canjear</button>
+            </div>
+        </div>
+
+        <div class="categoria">
+            <center>
+                <h2>  Papel
+                </h2>
+            </center>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Papel Blanco</h3>
+                    <p class="precio">Precio por kg: $1.200</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Papel Blanco', 1200)">Canjear</button>
+            </div>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Papel de Revista/Periódico</h3>
+                    <p class="precio">Precio por kg: $800</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Papel de Revista', 800)">Canjear</button>
+            </div>
+        </div>
+
+        <div class="categoria">
+            <center>
+                <h2>
+                    Vidrio
+                </h2>
+            </center>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Vidrio Transparente</h3>
+                    <p class="precio">Precio por kg: $500</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Vidrio Transparente', 500)">Canjear</button>
+            </div>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Vidrio de Color</h3>
+                    <p class="precio">Precio por kg: $400</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Vidrio de Color', 400)">Canjear</button>
+            </div>
+        </div>
+
+        <div class="categoria">
+            <center>
+                <h2>
+                    Cartón
+                </h2>
+            </center>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Cartón Corrugado</h3>
+                    <p class="precio">Precio por kg: $900</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Cartón Corrugado', 900)">Canjear</button>
+            </div>
+            <div class="producto">
+                <div class="producto-info">
+                    <h3>Cartón Plegadizo</h3>
+                    <p class="precio">Precio por kg: $700</p>
+                </div>
+                <button class="btn-canjear" onclick="mostrarModal('Cartón Plegadizo', 700)">Canjear</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>Confirmar Canje</h2>
+            <div id="detalles-producto"></div>
+            <div id="resultado-canje" class="resultado-canje">
+                <h3>¡Canje exitoso!</h3>
+                <div id="detalles-resultado"></div>
+            </div>
+            <div style="margin-top: 20px;">
+                <button class="btn-canjear btn-confirmar" onclick="confirmarCanje()">Aceptar</button>
+                <button class="btn-canjear btn-cancelar" onclick="cerrarModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4">
+            <h4 class="footer-title">Eco Puntos</h4>
+            <p>Transformando el reciclaje en beneficios para ti y para el planeta.</p>
+            <div class="social-links">
+              <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4">
+            <h4 class="footer-title">Enlaces Rápidos</h4>
+            <a href="{% url 'iniciosesionperfil' %}" class="footer-link">Inicio</a>
+            <a href="{% url 'categorias' %}" class="footer-link">Categorías</a>
+            <a href="{% url 'canjes' %}" class="footer-link">Canjes</a>
+            <a href="{% url 'historial' %}" class="footer-link">Historial</a>
+          </div>
+          <div class="col-md-4 mb-4">
+            <h4 class="footer-title">Contacto</h4>
+            <p><i class="fas fa-map-marker-alt me-2"></i> Calle 72 # 10-34 Torre A Oficina 1004</p>
+            <p><i class="fas fa-phone me-2"></i> (+57) 317 405 0510</p>
+            <p><i class="fas fa-envelope me-2"></i> contacto@ecopuntos.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2023 Eco Puntos. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+        let puntosTotales = 0;
+        let productoActual = null;
+        let precioActual = 0;
+
+        function mostrarModal(producto, precio) {
+            productoActual = producto;
+            precioActual = precio;
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('detalles-producto').innerHTML = `
+                <p>Producto: ${producto}</p>
+                <p>Precio por kg: $${precio}</p>
+                <input type="number" id="cantidad" placeholder="Ingrese los kg" onchange="calcularTotal(this.value, ${precio})">
+                <p id="total"></p>
+            `;
+            // Resetear el resultado anterior
+            document.getElementById('resultado-canje').style.display = 'none';
+            document.getElementById('detalles-producto').style.display = 'block';
+            document.querySelector('.btn-confirmar').style.display = 'inline-block';
+            document.querySelector('.btn-cancelar').textContent = 'Cancelar';
+        }
+
+        function calcularTotal(cantidad, precio) {
+            const total = Math.round(cantidad * precio);
+            document.getElementById('total').innerHTML = `Total a recibir: $${total}`;
+        }
+
+        function confirmarCanje() {
+            const cantidad = document.getElementById('cantidad').value;
+            if (!cantidad || cantidad <= 0) {
+                alert('Por favor ingrese una cantidad válida');
+                return;
+            }
+            const total = Math.round(cantidad * precioActual);
+            puntosTotales += total;
+            
+            const resultadoDiv = document.getElementById('resultado-canje');
+            const detallesResultado = document.getElementById('detalles-resultado');
+            
+            detallesResultado.innerHTML = `
+                <p>Has canjeado ${cantidad}kg de ${productoActual}</p>
+                <p>Recibirás: $${total}</p>
+                <p>Puntos acumulados: ${puntosTotales}</p>
+            `;
+            
+            resultadoDiv.style.display = 'block';
+            
+            document.getElementById('detalles-producto').style.display = 'none';
+            document.querySelector('.btn-confirmar').style.display = 'none';
+            document.querySelector('.btn-cancelar').textContent = 'Cerrar';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
